@@ -6,12 +6,13 @@ function App() {
   const [dogPic, setDogPic] = useState(null);
 
   useEffect(() => {
-    fetch("https://dog.ceo/api/breeds/image/random")
-      .then((r) => r.json())
-      .then((doggyPic) => {
-        setDogPic(doggyPic.message);
-        setIsLoading(false);
-      });
+    const dogFetch = () => fetch("https://dog.ceo/api/breeds/image/random").then((r) => r.json());
+    async function startFetching() {
+      const dogData = await dogFetch();
+      setDogPic(dogData.message);
+      setIsLoading(false);
+    }
+    startFetching();
   }, []);
 
   if (isLoading) return <p>Loading...</p>;
